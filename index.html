@@ -2,24 +2,54 @@
 <html>
     <head>
         <script type = "text/javascript">
-            // todo: make this into an IIFE
-            var calendarService = {
-                buildCalendar: function(month, year) {
-                    var daysBeforeMonthStart = this.getDaysBeforeMonthStart(month, year);
-                    var daysInMonth = this.getDaysInMonth(month, year);
+            updateCalendar = function() {
+                debugger;
+                this.displayedDate.setMonth(this.displayedDate.getMonth() + 1);
+                calendarService.buildCalendar(this.displayedDate.getMonth(), this.displayedDate.getYear());
+            }
+            // this.displayedDate = new Date;
+
+            window.onload = function() {
+                this.displayedDate = new Date;
+                // calendarService.setCurrentDate(new Date);
+                calendarService.buildCalendar(this.displayedDate.getMonth(), this.displayedDate.getFullYear());
+            }
+
+            var calendarService = (function() {
+                setCurrentDate = (function(currentDate) {
+                    this.currentDate = currentDate;
+                }).bind(this);
+
+                // setCurrentDate = setCurrentDate.bind(this);
+
+                getDaysBeforeMonthStart = function(month, year) {
+                    return new Date(year,month,1).getDay();
+                }
+                
+                getDaysInMonth = function(month, year) {
+                    return 32 - new Date(year, month, 32).getDate();
+                }
+
+                clearCalendar = function() {
+                    
+                }
+
+                buildCalendar = function(month, year) {
+                    debugger;
+                    var daysBeforeMonthStart = getDaysBeforeMonthStart(month, year);
+                    var daysInMonth = getDaysInMonth(month, year);
                     var dayCount = 1;
+                    
                     for (var i =0; i < 5; i++) {
                         var row = document.getElementById("row-" + i);
-
+                        
                         for(var j =0; j < 7; j++) {
                             var cell = document.createElement("td");
                             
                             if (daysBeforeMonthStart > 0) {
                                 cell.appendChild(document.createTextNode("b"));
                                 daysBeforeMonthStart--;
-                                // todo: make this a fcn and not hardcode in 28
                             } else if (dayCount > daysInMonth) {
-                                debugger;
                                 cell.appendChild(document.createTextNode("b"));
                             } else {
                                 cell.appendChild(document.createTextNode(dayCount));
@@ -28,21 +58,52 @@
                             row.appendChild(cell);
                         }
                     }
-                    // var firstDate = new Date(year, month);
-                },
-
-                getDaysBeforeMonthStart: function(month, year) {
-                    return new Date(year,month,1).getDay();
-                },
-                
-                getDaysInMonth: function(month, year) {
-                    return 32 - new Date(year, month, 32).getDate();
                 }
+                return {
+                    buildCalendar: buildCalendar,
+                    setCurrentDate: setCurrentDate,
 
-                // daysAfterMonthEnd: function(year,month) {
-                     
-                // }
-            }
+                }
+            })();   
+        
+            // todo: make this into an IIFE
+            // var calendarService = {
+            //     buildCalendar: function(month, year) {
+            //         debugger;
+            //         var daysBeforeMonthStart = this.getDaysBeforeMonthStart(month, year);
+            //         var daysInMonth = this.getDaysInMonth(month, year);
+            //         var dayCount = 1;
+                    
+            //         for (var i =0; i < 5; i++) {
+            //             var row = document.getElementById("row-" + i);
+                        
+            //             for(var j =0; j < 7; j++) {
+            //                 var cell = document.createElement("td");
+                            
+            //                 if (daysBeforeMonthStart > 0) {
+            //                     cell.appendChild(document.createTextNode("b"));
+            //                     daysBeforeMonthStart--;
+            //                 } else if (dayCount > daysInMonth) {
+            //                     cell.appendChild(document.createTextNode("b"));
+            //                 } else {
+            //                     cell.appendChild(document.createTextNode(dayCount));
+            //                     dayCount++;
+            //                 }
+            //                 row.appendChild(cell);
+            //             }
+            //         }
+            //     },
+
+            //     getDaysBeforeMonthStart: function(month, year) {
+            //         return new Date(year,month,1).getDay();
+            //     },
+                
+            //     getDaysInMonth: function(month, year) {
+            //         return 32 - new Date(year, month, 32).getDate();
+            //     }
+
+            //     // populateRow(rowIndex, )
+            // }
         </script>
 
         <title>
@@ -51,7 +112,7 @@
         <!-- <script type="text/javascript" src="javascript.js"></script> -->
     </head>
     <body>
-        <input type = "button" onclick = "calendarService.buildCalendar(3,2020)" value = "Build Calendar" />
+        <input type = "button" onclick = "updateCalendar()" value = "Build Calendar" />
         <table>
             <tr id ="row-0"></tr>
             <tr id ="row-1"></tr>
