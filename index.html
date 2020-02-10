@@ -5,6 +5,7 @@
             Calendar
         </title>
         <script type="text/javascript" src="calendar.js"></script>
+        <link rel='stylesheet' type='text/css' href='calendar.css'/>
     </head>
     <body>
         <h1 id="year"></h1>
@@ -12,6 +13,15 @@
         <input type = "button" onclick = "updateCalendar(true)" value = "Forward 1 Month" />
         <input type = "button" onclick = "updateCalendar(false)" value = "Backwards 1 Month" />
         <table>
+            <tr>
+                <th class="weekend">S</th>
+                <th>M</th>
+                <th>T</th>
+                <th>W</th>
+                <th>T</th>
+                <th>F</th>
+                <th class="weekend">S</th>
+              </tr>            
             <tr id ="row-0"></tr>
             <tr id ="row-1"></tr>
             <tr id ="row-2"></tr>

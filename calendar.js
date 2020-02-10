@@ -48,14 +48,22 @@ var calendarService = (function() {
                 var cell = document.createElement("td");
                 
                 if (daysBeforeMonthStart > 0) {
-                    cell.appendChild(document.createTextNode("b"));
+                    var cellContent = "b";
+                    // cell.appendChild(document.createTextNode("b"));
                     daysBeforeMonthStart--;
                 } else if (dayCount > daysInMonth) {
-                    cell.appendChild(document.createTextNode("b"));
+                    var cellContent = "b";
+                    // cell.appendChild(document.createTextNode("b"));
                 } else {
-                    cell.appendChild(document.createTextNode(dayCount));
+                    var cellContent = dayCount;
                     dayCount++;
                 }
+                cell.appendChild(document.createTextNode(cellContent));
+                
+                if (j == 0 || j == 6) {
+                    cell.className += "weekend";
+                }
+                
                 row.appendChild(cell);
             }
         }
