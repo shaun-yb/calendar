@@ -5,3 +5,17 @@ h1 {
 .weekend {
     color: red;
 }
+
+.header {
+    border-bottom: 1px solid gray;
+}
+
+td {
+    min-width: 8px;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid gray;
+}

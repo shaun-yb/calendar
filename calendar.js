@@ -48,12 +48,10 @@ var calendarService = (function() {
                 var cell = document.createElement("td");
                 
                 if (daysBeforeMonthStart > 0) {
-                    var cellContent = "b";
-                    // cell.appendChild(document.createTextNode("b"));
+                    var cellContent = "";
                     daysBeforeMonthStart--;
                 } else if (dayCount > daysInMonth) {
-                    var cellContent = "b";
-                    // cell.appendChild(document.createTextNode("b"));
+                    var cellContent = "";
                 } else {
                     var cellContent = dayCount;
                     dayCount++;
@@ -63,7 +61,7 @@ var calendarService = (function() {
                 if (j == 0 || j == 6) {
                     cell.className += "weekend";
                 }
-                
+
                 row.appendChild(cell);
             }
         }
