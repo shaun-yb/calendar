@@ -1,11 +1,13 @@
-updateHeader = function(month, year) {
+updateHeader = function(date) {
     const monthHeader = document.getElementById("month");
     const yearHeader = document.getElementById("year");
     monthHeader.innerHTML = "";
     yearHeader.innerHTML = "";
 
-    monthHeader.appendChild(document.createTextNode(month));
-    monthHeader.appendChild(document.createTextNode(year));
+    const monthStr = date.toLocaleDateString('default', {month: 'long'})
+
+    monthHeader.appendChild(document.createTextNode(monthStr));
+    monthHeader.appendChild(document.createTextNode(date.getFullYear()));
 }
 
 updateCalendar = function(addMonth) {
@@ -18,7 +20,7 @@ updateCalendar = function(addMonth) {
     const month = this.displayedDate.getMonth();
     const year = this.displayedDate.getFullYear();
 
-    updateHeader(month, year);
+    updateHeader(this.displayedDate);
     calendarService.buildCalendar(month, year);
 }
 
@@ -27,12 +29,12 @@ window.onload = function() {
     const month = this.displayedDate.getMonth();
     const year = this.displayedDate.getFullYear();
 
-    updateHeader(month, year);
+    updateHeader(this.displayedDate);
     calendarService.buildCalendar(month, year);
 }
 
 var calendarService = (function() {
-    const NUMBER_OF_WEEKS = 5;
+    const MAX_NUMBER_OF_WEEKS = 6;
     const DAYS_PER_WEEK = 7;
 
     buildCalendar = function(month, year) {
@@ -41,7 +43,7 @@ var calendarService = (function() {
         var daysInMonth = getDaysInMonth(month, year);
         var dayCount = 1;
         
-        for (var i =0; i < NUMBER_OF_WEEKS; i++) {
+        for (var i =0; i < MAX_NUMBER_OF_WEEKS; i++) {
             var row = document.getElementById("row-" + i);
             
             for(var j =0; j < DAYS_PER_WEEK; j++) {
@@ -75,7 +77,7 @@ var calendarService = (function() {
     }
 
     clearCalendar = function() {
-        for (var i = 0; i < NUMBER_OF_WEEKS; i++) {
+        for (var i = 0; i < MAX_NUMBER_OF_WEEKS; i++) {
             var row = document.getElementById("row-" + i);
             row.innerHTML = "";
         }

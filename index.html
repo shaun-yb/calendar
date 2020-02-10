@@ -8,10 +8,9 @@
         <link rel='stylesheet' type='text/css' href='calendar.css'/>
     </head>
     <body>
-        <h1 id="year"></h1>
-        <h1 id="month"></h1>
+        <h3 id="year"></h1>
+        <h3 id="month"></h1>
         <input type = "button" onclick = "updateCalendar(true)" value = "Forward 1 Month" />
-        <input type = "button" onclick = "updateCalendar(false)" value = "Backwards 1 Month" />
         <table>
             <tr class="header">
                 <th class="weekend">S</th>
@@ -27,6 +26,8 @@
             <tr id ="row-2"></tr>
             <tr id ="row-3"></tr>
             <tr id ="row-4"></tr>
+            <tr id ="row-5"></tr>
         </table>
+        <input type = "button" onclick = "updateCalendar(false)" value = "Backwards 1 Month" />
     </body>
 </html>
