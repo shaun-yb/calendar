@@ -2,48 +2,53 @@
 <html>
     <head>
         <script type = "text/javascript">
-            updateCalendar = function() {
-                debugger;
-                this.displayedDate.setMonth(this.displayedDate.getMonth() + 1);
-                calendarService.buildCalendar(this.displayedDate.getMonth(), this.displayedDate.getYear());
+            updateHeader = function(month, year) {
+                const monthHeader = document.getElementById("month");
+                const yearHeader = document.getElementById("year");
+                monthHeader.innerHTML = "";
+                yearHeader.innerHTML = "";
+
+                monthHeader.appendChild(document.createTextNode(month));
+                monthHeader.appendChild(document.createTextNode(year));
             }
-            // this.displayedDate = new Date;
+
+            updateCalendar = function(addMonth) {
+                if (addMonth) {
+                    this.displayedDate.setMonth(this.displayedDate.getMonth() + 1);
+                } else {
+                    this.displayedDate.setMonth(this.displayedDate.getMonth() -1);
+                }
+                
+                const month = this.displayedDate.getMonth();
+                const year = this.displayedDate.getFullYear();
+
+                updateHeader(month, year);
+                calendarService.buildCalendar(month, year);
+            }
 
             window.onload = function() {
                 this.displayedDate = new Date;
-                // calendarService.setCurrentDate(new Date);
-                calendarService.buildCalendar(this.displayedDate.getMonth(), this.displayedDate.getFullYear());
+                const month = this.displayedDate.getMonth();
+                const year = this.displayedDate.getFullYear();
+
+                updateHeader(month, year);
+                calendarService.buildCalendar(month, year);
             }
 
             var calendarService = (function() {
-                setCurrentDate = (function(currentDate) {
-                    this.currentDate = currentDate;
-                }).bind(this);
-
-                // setCurrentDate = setCurrentDate.bind(this);
-
-                getDaysBeforeMonthStart = function(month, year) {
-                    return new Date(year,month,1).getDay();
-                }
-                
-                getDaysInMonth = function(month, year) {
-                    return 32 - new Date(year, month, 32).getDate();
-                }
-
-                clearCalendar = function() {
-                    
-                }
+                const NUMBER_OF_WEEKS = 5;
+                const DAYS_PER_WEEK = 7;
 
                 buildCalendar = function(month, year) {
-                    debugger;
+                    clearCalendar();
                     var daysBeforeMonthStart = getDaysBeforeMonthStart(month, year);
                     var daysInMonth = getDaysInMonth(month, year);
                     var dayCount = 1;
                     
-                    for (var i =0; i < 5; i++) {
+                    for (var i =0; i < NUMBER_OF_WEEKS; i++) {
                         var row = document.getElementById("row-" + i);
                         
-                        for(var j =0; j < 7; j++) {
+                        for(var j =0; j < DAYS_PER_WEEK; j++) {
                             var cell = document.createElement("td");
                             
                             if (daysBeforeMonthStart > 0) {
@@ -59,10 +64,23 @@
                         }
                     }
                 }
+                getDaysBeforeMonthStart = function(month, year) {
+                    return new Date(year,month,1).getDay();
+                }
+                
+                getDaysInMonth = function(month, year) {
+                    return 32 - new Date(year, month, 32).getDate();
+                }
+
+                clearCalendar = function() {
+                    for (var i = 0; i < NUMBER_OF_WEEKS; i++) {
+                        var row = document.getElementById("row-" + i);
+                        row.innerHTML = "";
+                    }
+                }
+
                 return {
                     buildCalendar: buildCalendar,
-                    setCurrentDate: setCurrentDate,
-
                 }
             })();   
         
@@ -112,7 +130,10 @@
         <!-- <script type="text/javascript" src="javascript.js"></script> -->
     </head>
     <body>
-        <input type = "button" onclick = "updateCalendar()" value = "Build Calendar" />
+        <h1 id="year"></h1>
+        <h1 id="month"></h1>
+        <input type = "button" onclick = "updateCalendar(true)" value = "Forward 1 Month" />
+        <input type = "button" onclick = "updateCalendar(false)" value = "Backwards 1 Month" />
         <table>
             <tr id ="row-0"></tr>
             <tr id ="row-1"></tr>
